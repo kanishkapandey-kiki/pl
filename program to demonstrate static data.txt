@@ -1,0 +1,94 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// --- Part A: Static Data Members and Static Member Functions ---
+class Account {
+private:
+    int accNo;
+    static int totalAccounts;
+public:
+    void setData(int a) {
+        accNo = a;
+        totalAccounts++;
+    }
+    void display() {
+        cout << "Account Number: " << accNo << endl;
+    }
+    static void displayTotalAccounts() {
+        cout << "Total Accounts Created: " << totalAccounts << endl;
+    }
+};
+int Account::totalAccounts = 0;
+
+
+// --- Part B: Friend Function for Comparing Private Data of Two Classes ---
+class ClassB; // Forward declaration
+
+class ClassA {
+private:
+    int numA;
+public:
+    ClassA(int a) : numA(a) {}
+    friend void compareData(ClassA, ClassB);
+};
+
+class ClassB {
+private:
+    int numB;
+public:
+    ClassB(int b) : numB(b) {}
+    friend void compareData(ClassA, ClassB);
+};
+
+void compareData(ClassA objA, ClassB objB) {
+    if (objA.numA > objB.numB) {
+        cout << "ClassA's value (" << objA.numA << ") is greater than ClassB's value (" << objB.numB << ")." << endl;
+    } else if (objA.numA < objB.numB) {
+        cout << "ClassB's value (" << objB.numB << ") is greater than ClassA's value (" << objA.numA << ")." << endl;
+    } else {
+        cout << "Both values are equal." << endl;
+    }
+}
+
+
+// --- Part C: Friend Class for Accessing Private Members ---
+class Box {
+private:
+    double width;
+public:
+    Box(double w) : width(w) {}
+    friend class Inspector;
+};
+
+class Inspector {
+public:
+    void printWidth(Box b) {
+        cout << "Inspector checked - Box Width: " << b.width << endl;
+    }
+};
+
+
+int main() {
+    cout << "=== 1. Static Members Demonstration ===" << endl;
+    Account a1, a2, a3;
+    a1.setData(1001);
+    a2.setData(1002);
+    a3.setData(1003);
+    a1.display();
+    a2.display();
+    a3.display();
+    Account::displayTotalAccounts();
+
+    cout << "\n=== 2. Friend Function Demonstration ===" << endl;
+    ClassA objA(45);
+    ClassB objB(60);
+    compareData(objA, objB);
+
+    cout << "\n=== 3. Friend Class Demonstration ===" << endl;
+    Box box(15.5);
+    Inspector inspector;
+    inspector.printWidth(box);
+
+    return 0;
+}
