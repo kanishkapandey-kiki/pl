@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+class Rectangle {
+private:
+    float length;
+    float breadth;
+public:
+    void setDimensions(float l, float b) {
+        length = l;
+        breadth = b;
+    }
+
+    // Member functions declared inside, defined outside
+    float calculateArea();
+    float calculatePerimeter();
+
+    void display() {
+        cout << "Length: " << length << ", Breadth: " << breadth << endl;
+        cout << "Area: " << calculateArea() << endl;
+        cout << "Perimeter: " << calculatePerimeter() << endl;
+    }
+};
+
+float Rectangle::calculateArea() {
+    return length * breadth;
+}
+
+float Rectangle::calculatePerimeter() {
+    return 2 * (length + breadth);
+}
+
+int main() {
+    Rectangle rect;
+    float l, b;
+    cout << "Enter length and breadth of rectangle: ";
+    cin >> l >> b;
+    rect.setDimensions(l, b);
+    rect.display();
+    return 0;
+}
